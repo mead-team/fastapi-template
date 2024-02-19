@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.metadata import swagger_metadata
+from app.core.middleware import ProcessTimeMiddleware
 from app.core.setting import settings
 
 
@@ -24,6 +25,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(ProcessTimeMiddleware)
 
 
 @app.get("/api-health-check")
