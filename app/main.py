@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.core.metadata import swagger_metadata
 from app.core.middleware import ProcessTimeMiddleware
 from app.core.setting import settings
@@ -34,3 +35,6 @@ def api_health_check():
         "api_health_check": "api-server-template is Ok",
         "debug-mode": settings.DEBUG,
     }
+
+
+app.mount("/static", StaticFiles(directory="app/core/static"), name="static")
