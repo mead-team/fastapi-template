@@ -6,6 +6,9 @@ class EnvSettings(BaseSettings):
     APP_ENV: str
     DEBUG: bool
     ALLOWED_ORIGINS: str
+    REDIS_HOST: str
+    REDIS_PORT: str
+    REDIS_DATABASE: str
 
     @field_validator("ALLOWED_ORIGINS")
     def parsing_allowed_origins(cls, value):

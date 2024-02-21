@@ -8,6 +8,23 @@ services:
     volumes:
       - ./:/usr/src/app
     ports:
-      - 8000:8000
+      - "8000:8000"
+    depends_on:
+      - redis
     env_file:
       - env/base.env
+    networks:
+      - test-network
+
+  redis:
+    container_name: test-redis
+    image: redis:6.0-alpine
+    env_file:
+      - env/base.env
+    ports:
+      - "6379:6379"
+    networks:
+      - test-network
+
+networks:
+  test-network:
