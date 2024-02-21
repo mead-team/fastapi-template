@@ -1,9 +1,11 @@
 from contextlib import asynccontextmanager
+from redis import Redis
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+from app.core.dependency import get_redis
 from app.core.metadata import swagger_metadata
 from app.core.middleware import ProcessTimeMiddleware
 from app.core.setting import settings
@@ -33,9 +35,16 @@ app.add_middleware(ProcessTimeMiddleware)
 @app.get("/api-health-check")
 def api_health_check():
     return {
-        "api_health_check": "api-server-template is Ok",
+        "api_health_check": "api-server is Ok",
         "debug-mode": settings.DEBUG,
     }
+
+
+@app.get("/redis-health-check")
+async def redis_health_check(redis: Redis = Depends(get_redis)):
+    redis.set("redis_health_check", "Ok")
+    value = redis.get("redis_health_check")
+    return {"redis_health_check": f"redis-server is {value}"}
 
 
 app.mount("/static", StaticFiles(directory="app/core/static"), name="static")
