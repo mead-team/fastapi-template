@@ -1,8 +1,8 @@
-version: '3.9'
+version: "3.9"
 
 services:
   app:
-    container_name: test-api
+    container_name: test_api
     build: .
     command: bash -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
@@ -10,21 +10,38 @@ services:
     ports:
       - "8000:8000"
     depends_on:
+      - db
       - redis
     env_file:
       - env/base.env
     networks:
       - test-network
 
+
+  db:
+    container_name: test_db
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - env/dev.env
+    ports:
+      - "5434:5432"
+    networks:
+      - test-network
+
   redis:
-    container_name: test-redis
+    container_name: test_redis
     image: redis:6.0-alpine
     env_file:
-      - env/base.env
+      - env/dev.env
     ports:
       - "6379:6379"
     networks:
       - test-network
+
+volumes:
+  postgres_data:
 
 networks:
   test-network:
