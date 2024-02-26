@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
-from redis import Redis
 
-from fastapi import FastAPI, Depends
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from redis import Redis
 
 from app.core.dependency import get_redis
 from app.core.metadata import swagger_metadata
