@@ -9,6 +9,11 @@ class EnvSettings(BaseSettings):
     REDIS_HOST: str
     REDIS_PORT: str
     REDIS_DATABASE: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_HOST: str
+    POSTGRES_PORT: str
+    POSTGRES_DB: str
 
     @field_validator("ALLOWED_ORIGINS")
     def parsing_allowed_origins(cls, value):
